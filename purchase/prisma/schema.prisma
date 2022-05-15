@@ -13,5 +13,49 @@ datasource db {
 model Customer {
   id String @id @default(uuid())
 
+  authUserId String? @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  purchases Purchase[]
+
   @@map("customer")
+}
+
+model Product {
+  id String @id @default(uuid())
+
+  title String
+  slug  String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  purchasedOn Purchase[]
+
+  @@map("product")
+}
+
+enum PurchaseStatus {
+  PENDING
+  APPROVED
+  FAILED
+}
+
+model Purchase {
+  id String @id @default(uuid())
+
+  status PurchaseStatus @default(PENDING)
+
+  customer Customer @relation(fields: [customerId], references: [id])
+  Product  Product  @relation(fields: [productId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  productId  String
+  customerId String
+
+  @@map("purchase")
 }
