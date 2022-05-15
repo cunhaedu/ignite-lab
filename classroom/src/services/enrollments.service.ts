@@ -7,6 +7,11 @@ interface IFindByCourseAndStudentData {
   courseId: string;
 }
 
+interface ICreateEnrollmentData {
+  studentId: string;
+  courseId: string;
+}
+
 @Injectable()
 export class EnrollmentsService {
   constructor(private prisma: PrismaService) {}
@@ -15,6 +20,15 @@ export class EnrollmentsService {
     return this.prisma.enrollment.findMany({
       where: { canceledAt: null },
       orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  async create({
+    studentId,
+    courseId,
+  }: ICreateEnrollmentData): Promise<Enrollment> {
+    return this.prisma.enrollment.create({
+      data: { courseId, studentId },
     });
   }
 

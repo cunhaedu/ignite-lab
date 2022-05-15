@@ -6,6 +6,7 @@ import slugify from 'slugify';
 
 interface ICreateCourseData {
   title: string;
+  slug?: string;
 }
 
 @Injectable()
@@ -22,9 +23,16 @@ export class CoursesService {
     });
   }
 
-  async createCourse({ title }: ICreateCourseData): Promise<Course> {
-    const slug = slugify(title, { lower: true });
+  async findBySlug(slug: string): Promise<Course> {
+    return this.prisma.course.findUnique({
+      where: { slug },
+    });
+  }
 
+  async createCourse({
+    title,
+    slug = slugify(title, { lower: true }),
+  }: ICreateCourseData): Promise<Course> {
     const courseWithSameSlug = await this.prisma.course.findUnique({
       where: { slug },
     });

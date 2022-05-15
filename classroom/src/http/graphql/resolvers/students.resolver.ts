@@ -2,7 +2,6 @@ import { UseGuards } from '@nestjs/common';
 import { Resolver, Query, ResolveField, Parent } from '@nestjs/graphql';
 
 import { AuthorizationGuard } from '../../auth/authorization.guard';
-import { CurrentUser, IAuthUser } from '../../auth/current-user';
 
 import { StudentsService } from '../../../services/students.service';
 import { EnrollmentsService } from '../../../services/enrollments.service';
@@ -19,16 +18,15 @@ export class StudentsResolver {
 
   @Query(() => Student)
   @UseGuards(AuthorizationGuard)
-  async me(@CurrentUser() user: IAuthUser) {
-    const student = await this.studentsService.findByAuthUserId(user.sub);
+  // async me(@CurrentUser() user: IAuthUser) {
+  //   const student = await this.studentsService.findByAuthUserId(user.sub);
 
-    if (!student) {
-      throw new Error('Student not found');
-    }
+  //   if (!student) {
+  //     throw new Error('Student not found');
+  //   }
 
-    return student;
-  }
-
+  //   return student;
+  // }
   @Query(() => [Student])
   @UseGuards(AuthorizationGuard)
   students() {
