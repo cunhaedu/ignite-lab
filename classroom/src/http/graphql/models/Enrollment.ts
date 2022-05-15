@@ -8,12 +8,12 @@ export class Enrollment {
   id: string;
 
   @Field(() => Student)
-  student: Student;
+  student?: Student;
 
   studentId: string;
 
   @Field(() => Course)
-  course: Course;
+  course?: Course;
 
   courseId: string;
 

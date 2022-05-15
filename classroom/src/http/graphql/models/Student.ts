@@ -6,6 +6,8 @@ export class Student {
   @Field(() => ID)
   id: string;
 
+  authUserId: string;
+
   @Field(() => [Enrollment])
-  enrollments: Enrollment[];
+  enrollments?: Enrollment[];
 }
